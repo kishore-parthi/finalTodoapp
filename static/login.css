@@ -1,0 +1,324 @@
+/* 
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2em;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    text-align:center;
+    max-width: 400px;
+    width: 100%;
+    
+}
+
+h2 {
+    margin-bottom: 1em;
+    font-size: 2em;
+    color: #ffeb3b;
+}
+
+
+
+label {
+    font-size: 1.2em;
+    margin-bottom:20px;
+}
+
+input[type="text"]
+{ 
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    outline: none;
+    margin-bottom:8px;
+}
+
+input[type="submit"] {
+    padding:8px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffeb3b;
+    color: #000;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #ffc107;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.1);
+    padding: 0.5em;
+    margin-top:8px;
+    border-radius: 5px;
+    color: #ff0000;
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom:8px;
+}
+
+
+.password-container input[type="password"] {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    outline: none;
+
+    
+    
+}
+
+.password-container i {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}    */
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2em;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width:400px;
+    width: 100%;
+    
+}
+.inner-container{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+   
+}
+
+h2 {
+    margin-bottom: 1em;
+    font-size: 2em;
+    color: #ffeb3b;
+}
+
+label {
+    font-size: 1.2em;
+    padding-right: 8px;
+   
+    
+}
+
+input[type="text"],
+input[type="password"] {
+    /* width: calc(100% - 40px);  */
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    outline: none;
+   
+}
+
+input[type="submit"] {
+    padding:8px 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffeb3b;
+    color: #000;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #ffc107;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.1);
+    padding: 0.5em;
+    margin-top: 8px;
+    border-radius: 5px;
+    color: #ff0000;
+}
+.username-container{
+    
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    /* margin-bottom: 10px; */
+    /* width: calc(100% - 40px);  */
+    /* padding: 8px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    outline: none; */
+   
+
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    /* width: calc(100% - 40px);  */
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    outline: none;
+    
+}
+
+
+.password-container i {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #000;
+}
+
+
+/* Styles for screens with a maximum width of 500px */
+@media only screen and (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 1em;
+        box-shadow: none;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    label {
+        font-size: 1em;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        font-size: 0.9em;
+        padding: 6px;
+    }
+
+    input[type="submit"] {
+        padding: 6px 14px;
+        font-size: 1em;
+    }
+
+    .password-container i {
+        right: 5px;
+    }
+}
+
+/* Styles for screens with a width between 501px and 900px */
+@media only screen and (min-width: 501px) and (max-width: 900px) {
+    .container {
+        padding: 1.5em;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+        font-size: 1.75em;
+    }
+
+    label {
+        font-size: 1.1em;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        font-size: 0.95em;
+        padding: 7px;
+    }
+
+    input[type="submit"] {
+        padding: 7px 18px;
+        font-size: 1.1em;
+    }
+
+    .password-container i {
+        right:8px;
+    }
+}
+
+/* Styles for screens with a maximum width of 360px */
+@media only screen and (max-width: 360px) {
+    body {
+        padding: 5px;
+    }
+
+    .container {
+        padding: 0.5em;
+        box-shadow: none;
+        width:fit-content;
+        
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    label {
+        font-size: 0.9em;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        font-size: 0.8em;
+        padding: 8px;
+        width:100%;
+    }
+
+    input[type="submit"] {
+        padding: 5px 10px;
+        font-size: 0.9em;
+    }
+
+    .password-container i {
+        right: 8px;
+    }
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>completed Task View</title>
+    <link rel="stylesheet" href="/static/completedtask.css">
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="middle-container">
+            <div class="header">
+                <div class="goto-button">
+                    <button class="inside-gotobtn" onclick="window.location.href='/';"><img src="/static/icons/leftarrow.png"
+                            style="padding-right: 12px;"> Go to Home
+                    </button>
+
+                </div>
+                <div class="title">
+                    Completed Task
+                </div>
+
+            </div>
+            <div class="content">
+                {% for task in completed_tasks %}
+
+                <div class="task-recordarea">
+                    <div class="left-dashboard">
+                        <div class="dashboard">{{ task.task }}</div>
+                        <div class="priority-area">
+                        <div class="priority-level">Priority Level :<span style="color: red;">{{task.priorityLevel
+                                }}</span>
+                            </div>
+                                <div class="userselectnamearea">
+                            <span class="userselect">Assigned to : <span
+                                    style="color: rgb(233, 13, 253);">{{task.assignedTo}}</span></span>
+                            </div>
+                        
+                        </div>
+
+                    </div>
+
+                    <div class="right-dashboard">
+                        <form action="/reopen_task" method="post">
+                            <button type="submit" class="reopen-btn" name="reopen_task_id" value="{{ task.taskId }}"
+                                data-task-id="{{ task.taskId }}">Reopen</button>
+                        </form>
+                        <button class="report-btn">Report</button>
+
+                    </div>
+
+
+                </div>
+                {% endfor %}
+                <!-- <div class="task-recordarea">
+                <div class="left-dashboard">
+                    <div class="dashboard"> Solve the bug found in flask deployment server</div>
+                    <div class="priority-level">Priority Level :<span style="color: orange;"> MEDIUM</span></div>
+                </div>
+                <div class="right-dashboard">
+                    <button class="reopen-btn">Reopen</button>
+                    <button class="report-btn">Report</button>
+                   
+                </div>
+            </div> -->
+                <!-- <div class="task-recordarea">
+                <div class="left-dashboard">
+                    <div class="dashboard"> Create new collection for user in mongodb databsase</div>
+                    <div class="priority-level">Priority Level :<span style="color:green;"> LOW</span></div>
+                </div>
+                <div class="right-dashboard">
+                    <button class="reopen-btn">Reopen</button>
+                    <button class="report-btn">Report</button>
+                   
+                </div>
+            </div> -->
+            </div>
+
+        </div>
+    </div>
+    <script src="/static/script.js"></script>
+
+</body>
+
+</html>

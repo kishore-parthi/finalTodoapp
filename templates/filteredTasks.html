@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtered Tasks</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="header">
+    <a class="home-btn" href="/"><img src="/static/icons/leftarrow.png"
+        style="padding-right: 12px;">Back to Home</a>
+        <div class="title">
+            <span><img src="/static/icons/filtericon-64.png"
+                style="margin-top: 10px;"></span>
+         <h1>Filter Tasks by User</h1>
+         </div>
+    
+
+    <form method="POST" action="/filter_tasks">
+        <div class="filter_area"> 
+        <label  class="label_name" for="user_name">Select User:</label>
+        <select  class="user_name" name="user_name" id="user_name">
+            <option>All Users</option>
+        
+            {% for user in users %}
+                <option value="{{ user.user_name }}" {% if selected_user == user.user_name %}selected{% endif %}>
+                    {{ user.user_name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button class="filter-btn" type="submit">Filter</button>
+    </div>
+    </form>
+</div>
+    <div class="container">
+
+    <div class="middle-container">
+    <div class="content">
+        {% for task in tasks %}
+
+        <div class="task-recordarea">
+            <div class="left-dashboard">
+                <div class="dashboard">{{ task.task }}</div>
+                <div class="priority-level">Priority Level :
+                    {% if task.priorityLevel=='HIGH' %}
+                    <span style="color: red;">{{ task.priorityLevel }}</span>
+                    {% elif task.priorityLevel=='MEDIUM' %}
+                    <span style="color:orange;">{{ task.priorityLevel }}</span>
+                    {% elif task.priorityLevel=='LOW' %}
+                    <span style="color:blue">{{ task.priorityLevel }}</span>
+                    {% endif %}
+                    <span class="userselect" style="margin-left: 10px;">assignedTo : <span style="color: rgb(233, 13, 253);">{{task.assignedTo}}</span></span>
+                </div>
+               
+
+            </div>
+            <div class="right-dashboard">
+                <button class="edit-btn" class="edit-fading" data-task-id="{{ task.taskId }}"
+                    data-task-text="{{ task.task }}" data-task-priority="{{ task.priorityLevel }}">Edit</button>
+                <button class="done-btn" class="done-fading" data-task-id="{{ task.taskId }}">Done</button>
+                <div class="done_cont">
+                    <span onclick="document.querySelector('.done_cont').style.display='none'" class="close"
+                        title="close">&times;</span>
+                    <div class="done_txt">
+                        <p>Are you sure want to submit this Task?</p>
+                    </div>
+                    <form action="/done_task" method="post">
+                        <div class="done_actions">
+                            <button onclick="document.querySelector('.done_cont').style.display='none'"
+                                class="cancel">Cancel</button>
+                            <button type="submit" class="done" id="task_id_done" name="task_id_done"
+                                value="{{ task.taskId }}">submit</button>
+                        </div>
+                    </form>
+                </div>
+
+                <button class="delete-btn" class="delete-fading"
+                    data-task-id="{{ task.taskId }}">Delete</button>
+                <div class="delete_cont" data-task-id="{{ task.taskId }}">
+                    <span onclick="document.querySelector('.delete_cont').style.display='none'" class="close"
+                        title="close">&times;</span>
+                    <div class="delete_txt">
+
+                        <p>Are you sure want to delete this task?</p>
+                    </div>
+                    <form action="/delete_task" method="post">
+                        <div class="delete_actions">
+                            <button onclick="document.querySelector('.delete_cont').style.display='none'"
+                                class="cancel">Cancel</button>
+                            <button type="submit" class="delete" id="task_id_delete" name="task_id_delete"
+                                value="{{ task.taskId }}">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+        <form id="edit-task-{{ task.taskId }}" action="/update_task" method="post">
+            <div class="edit-container" id="edit-container-{{ task.taskId }}" style="display:none;">
+
+                <input type="hidden" name="task_id" value="{{ task.taskId }}">
+                <div class="lefteditarea">
+                    <textarea type="new_description" name="new_description" class="edit-textarea"></textarea>
+                </div>
+                <div class="edit-priority">
+                    <select name="new_priority" id="priority" class="edit-priorityLevel">
+
+                        <option value="HIGH" class="high-priority">Priority
+                            Level:&lpar;<strong>HIGH</strong>&rpar;</option>
+                        <option selected value="MEDIUM" class="medium-priority">Priority
+                            Level:&lpar;<strong>MEDIUM</strong>&rpar;</option>
+                        <option value="LOW" class="low-priority">Priority Level:&lpar;<strong>LOW</strong>&rpar;
+                        </option>
+                    </select>
+                    <!--  -->
+                    <select id="user_id" class="edit-user-selector" name="edit-user_name">
+                        {% for user in users %}
+                        <option >{{ user.user_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <!--  -->
+                </div>
+
+
+
+                <div class="edit-submit">
+                    <button type="submit" class="submit-edit-btn"
+                        data-task-id="{{ task.taskId }}">Submit</button>
+                    <button class="edit-cancel" onclick="document.querySelector('.edit-container').style.display='none'">Cancel</button>    
+                </div>
+                
+
+
+            </div>
+        </form>
+
+
+
+
+        {% endfor %}
+
+    </div>
+    </div>
+    </div>
+   
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD Users </title>
+    <style>
+        .home-btnarea{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+            width:10%;
+            height: 50px;
+            margin-top:20px ;
+            margin-left: 30px;
+           
+            
+        }
+        .gotobtn{
+            width: fit-content;
+            height: fit-content;
+            padding: 8px 10px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+        }
+        .container{
+            display: flex;
+           
+           
+            flex-direction: column;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top:80px;
+            width: 21%;
+            height:350px;
+           
+            /* background-color: aqua; */
+            border: 12px solid rgba(243, 240, 240, 0.671);
+            border-radius: 15px;
+            background-color: rgba(223, 222, 222, 0.671);
+        }
+        .header{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            width: 100%;
+           
+            height: 50px;
+            border-radius: 8px;
+            /* background-color: violet; */
+            background-color: rgba(206, 203, 203, 0.671);
+        }
+        .title{
+            font-size: 24px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 700;
+            color: white;
+        }
+         .content{
+            display: flex;
+            justify-content: flex-start;
+            flex-direction:row;
+            /* background-color: blueviolet; */
+             margin-top: 30px;
+            width: 100%;
+            height: 150px;
+           
+        } 
+        .users{
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            font-weight: 500px;
+            padding-left: 20px;
+        } 
+        .pass{
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            font-weight: 500px;
+            padding-left: 20px;
+
+        }
+        .userinputarea{
+            display: flex;
+            width:50%;
+            height: 40px;
+            outline: none;
+            text-indent: 8px;
+            border: none;
+            margin-left: 10px;
+        }
+        .passwordinputarea{
+            display: flex;
+            width:50%;
+            height: 40px;
+            outline: none;
+            text-indent: 8px;
+            border: none;
+            margin-left: 20px;
+
+        }
+        .username{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            /* background-color: yellow; */
+        }
+        .password{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+
+        }
+        .username-selector{
+            display: flex;
+            /* justify-content: center; */
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            margin-top: 20px;
+            /* background-color: green; */
+        }
+        .role{
+          padding-left: 20px;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 18px;
+          font-weight: 500;
+            
+        }
+        .selector-user{
+            width:40%;
+            height: 30px;
+            margin-left:20px;
+            outline: none;
+            padding-left:8%;
+            font-weight: 500;
+            font-size:18px;
+            background-color: rgba(206, 203, 203, 0.671);
+        }
+        .footer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width:100%;
+           
+            height: 50px;
+            margin-top: 20px;
+            /* margin-left: 20px; */
+           
+            
+            
+            
+        }
+        .submit-btn{
+           
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            width: fit-content;
+            height: fit-content;
+            padding: 8px 8px;
+            border-radius: 8px;
+           background-color: rgb(33, 230, 33);
+            border: none;
+            cursor: pointer;
+        }
+        
+        
+
+    </style>
+</head>
+<body>
+    <div class="home-btnarea">
+        <button class="gotobtn"  onclick="window.location.href='/';">Go To Home</button>
+    </div>
+    <div class="container">
+        <div class="header">
+         <div class="title"><img src="/static/icons/cross plus.png"
+            style="padding-right: 12px;">ADD USER</div>
+        </div>
+        <div class="content">
+            <form action="/add_user" method="post">
+                <div class="username">
+                <label class="users">User Name:</label>
+                <input type="user_name" name="user_name" class="userinputarea" placeholder="Type UserName">
+                </div>
+            <div class="password">
+                <label for="password" class="pass">Password:</label>
+                <input type="password" id="password" name="password" class="passwordinputarea"  placeholder="Type Password" required>
+            </div>
+            <div class="username-selector">
+                <label class="role">User Role:</label>
+                <select class="selector-user"  name="user_role" >user_name
+                    <option value="Admin">Admin</option>
+                    <option value="User" selected>User</option>
+                </select>
+
+            </div>
+            <div class="footer">
+                <button type="submit" class="submit-btn">Submit</button>
+
+            </div>
+            </form>
+
+
+        </div> 
+   
+    </div>
+    
+</body>
+</html>

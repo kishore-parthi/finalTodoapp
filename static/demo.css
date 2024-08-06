@@ -1,0 +1,68 @@
+/* styles.css */
+
+.content {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.task-recordarea {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.left-dashboard {
+    flex-grow: 1;
+}
+
+.dashboard {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.right-dashboard {
+    display: flex;
+    align-items: center;
+}
+
+.edit-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.edit-container textarea {
+    width: calc(100% - 40px);
+    height: 80px;
+    margin-bottom: 10px;
+    resize: none;
+}
+
+.edit-container .priority-selector {
+    margin-bottom: 10px;
+}
+
+.edit-container .priority-selector label {
+    font-weight: bold;
+    display: block;
+}
+
+.edit-container .priority-selector select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.edit-container .submit-edit-btn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-container .submit-edit-btn:hover {
+    background-color: #45a049;
+}
