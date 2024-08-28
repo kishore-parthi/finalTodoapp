@@ -1,15 +1,17 @@
-import os
-from flask import Flask, render_template, request, redirect,url_for,session,flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from datetime import datetime
 import uuid
+from celery import Celery
 import mongo
-import asyncio
-import logging
+
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY','lalpurb126745')
+app.secret_key = 'lalpurb126745'
 
-logging.basicConfig(level=logging.INFO)
-
+# Configure Celery
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
 
 def check_login():
     if 'user' not in session:
@@ -31,7 +33,6 @@ def read_all_tasks():
 
 @app.route('/', methods=['GET','POST'])
 def read():
-    
     if not check_login():
         return redirect(url_for('login'))
     
@@ -40,25 +41,20 @@ def read():
     if request.method == 'POST':
         selected_user = request.form.get('user_name')
         session['selected_user'] = selected_user
-        # session['filter_applied'] = True
         return redirect(url_for('read'))
 
-    # if session.get('filter_applied') and 'selected_user' in session:
     if session.get('selected_user'):
         selected_user = session['selected_user']
         tasks = get_tasks(selected_user)
-        #   session['filter_applied'] = False 
         session['selected_user']= None
     else:
         return read_all_tasks()
 
-
-    return render_template('home.html', tasks=tasks, users=users, seleted_user=selected_user)
+    return render_template('home.html', tasks=tasks, users=users, selected_user=selected_user)
 
 
 @app.route('/login',methods=['GET','POST'])
 def login():
-    
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -68,17 +64,14 @@ def login():
                 session['user'] = username
                 return redirect(url_for('read'))
         flash('Invalid username or password')
-        
         return redirect(url_for('login'))
 
     return render_template('login.html')
 
-  
 @app.route('/logout')
 def logout():
     session.pop('user', None)
     session.pop('selected_user', None)
-    session.pop('filter_applied', None)
     return redirect(url_for('login'))
 
 
@@ -88,9 +81,9 @@ def add_user():
         uuid_id = str(uuid.uuid4())
         user_id = uuid_id.replace('-', '')
         user_name = request.form['user_name']
-        user_pass =request.form['password']
+        user_pass = request.form['password']
         user_role = request.form['user_role']
-        mongo.add_user(user_id,user_name,user_pass,user_role)
+        add_user_task.delay(user_id, user_name, user_pass, user_role)
         return redirect('/')
     return render_template('addUsers.html')
     
@@ -113,8 +106,8 @@ def create():
         'isCompleted': is_completed,
         'assignedTo': user_name
     }
-    mongo.create_task(task_data)
-    mongo.update_user_task(task_data['taskId'], task_data['assignedTo'])
+    create_task_task.delay(task_data)
+    update_user_task_task.delay(task_data['taskId'], task_data['assignedTo'])
     return redirect('/')
 
 @app.route('/update_task', methods=['POST'])
@@ -122,22 +115,20 @@ def update_task():
     task_id = request.form.get('task_id')
     new_description = request.form.get('new_description')
     new_priority = request.form.get('new_priority')
-    user_name=request.form.get('edit-user_name')
-    mongo.update_task(task_id, new_description, new_priority,user_name)
-    # mongo.update_user_task(task_id, user_name)
+    user_name = request.form.get('edit-user_name')
+    update_task_task.delay(task_id, new_description, new_priority, user_name)
     return redirect('/')
 
 @app.route('/delete_task', methods=['POST'])
 def delete_task():
     task_id = request.form.get('task_id_delete')
-    mongo.delete_task(task_id)
+    delete_task_task.delay(task_id)
     return redirect('/')
 
 @app.route('/done_task', methods=['POST'])
 def done_task():
     task_id = request.form.get('task_id_done')
-    
-    mongo.mark_task_as_completed(task_id)
+    mark_task_as_completed_task.delay(task_id)
     return redirect('/')
 
 @app.route('/completedtasks', methods=['GET'])
@@ -150,17 +141,37 @@ def completed_tasks():
 @app.route('/reopen_task', methods=['POST'])
 def reopen_task():
     task_id = request.form.get('reopen_task_id')
-    mongo.reopen_task(task_id)
+    reopen_task_task.delay(task_id)
     return redirect('/')
-
-# @app.route('/', methods=['GET', 'POST'])
-# def filter_tasks():
-#     users = mongo.get_users()
-#     if request.method == 'POST':
-#         user_name = request.form.get('user_name')
-#         tasks = mongo.get_tasks_by_user(user_name)
-#         return render_template('home.html', tasks=tasks, users=users, selected_user=user_name)
-#     return render_template('home.html', tasks=[], users=users, selected_user=None)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# Celery Tasks
+@celery.task
+def add_user_task(user_id, user_name, user_pass, user_role):
+    mongo.add_user(user_id, user_name, user_pass, user_role)
+
+@celery.task
+def create_task_task(task_data):
+    mongo.create_task(task_data)
+
+@celery.task
+def update_task_task(task_id, new_description, new_priority, user_name):
+    mongo.update_task(task_id, new_description, new_priority, user_name)
+
+@celery.task
+def delete_task_task(task_id):
+    mongo.delete_task(task_id)
+
+@celery.task
+def mark_task_as_completed_task(task_id):
+    mongo.mark_task_as_completed(task_id)
+
+@celery.task
+def reopen_task_task(task_id):
+    mongo.reopen_task(task_id)
+
+@celery.task
+def update_user_task_task(task_id, user_name):
+    mongo.update_user_task(task_id, user_name)
