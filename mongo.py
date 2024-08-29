@@ -1,12 +1,23 @@
 import os
 from pymongo import MongoClient
+from urllib.parse import quote_plus
+
+# Get environment variables
+username = os.getenv('MONGO_USER', 'kishoreparthi0801')
+password = os.getenv('MONGO_PASSWORD', 'k@P08012001')
+host = os.getenv('MONGO_HOST', 'cluster0.vgaxg.mongodb.net')
+db_name = os.getenv('MONGO_DB', 'TaskManager')
+
+# URL encode the username and password
+encoded_username = quote_plus(username)
+encoded_password = quote_plus(password)
 
 
-mongo_uri = os.getenv("MONGO_URI","mongodb+srv://kishoreparthi0801:<k@P08012001>@cluster0.vgaxg.mongodb.net/TaskManager?retryWrites=true&w=majority&appName=Cluster0")
+mongo_uri = f"mongodb+srv://{encoded_username}:{encoded_password}@{host}/{db_name}?retryWrites=true&w=majority&appName=Cluster0"
 
 client = MongoClient(mongo_uri)
 
-db = client["TaskManager"]
+db = client[db_name]
 tasks_collection = db["tasks"]
 users_collection =db["users"]
 
